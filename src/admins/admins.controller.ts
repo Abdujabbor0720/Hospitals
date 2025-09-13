@@ -29,6 +29,7 @@ export class AdminsController {
     @Post()
     @Roles(UserRole.ADMIN)
     create(@Body() createAdminDto: CreateAdminDto, @GetUser() user: any) {
+        // Faqat super admin yangi admin yarata oladi
         if (user.role !== 'admin' || user.is_super_admin !== true) {
             throw new ForbiddenException('Only super admin can create new admins');
         }
@@ -50,6 +51,7 @@ export class AdminsController {
     @Patch(':id')
     @Roles(UserRole.ADMIN)
     update(@Param('id') id: string, @Body() updateAdminDto: UpdateAdminDto, @GetUser() user: any) {
+        // Service'ga current user ma'lumotini uzatish
         return this.adminsService.update(+id, updateAdminDto, user);
     }
 
@@ -63,6 +65,7 @@ export class AdminsController {
     @ApiResponse({ status: 403, description: 'Faqat super admin boshqa adminni super admin qila oladi' })
     @ApiResponse({ status: 404, description: 'Admin topilmadi' })
     promoteToSuperAdmin(@Param('id') id: string, @GetUser() user: any) {
+        // Faqat super admin boshqa adminni super admin qila oladi
         if (user.role !== 'admin' || user.is_super_admin !== true) {
             throw new ForbiddenException('Only super admin can promote other admins to super admin');
         }
@@ -79,6 +82,7 @@ export class AdminsController {
     @ApiResponse({ status: 403, description: 'Faqat super admin boshqa super adminni demote qila oladi' })
     @ApiResponse({ status: 404, description: 'Admin topilmadi' })
     demoteFromSuperAdmin(@Param('id') id: string, @GetUser() user: any) {
+        // Faqat super admin boshqa adminni oddiy admin qila oladi
         if (user.role !== 'admin' || user.is_super_admin !== true) {
             throw new ForbiddenException('Only super admin can demote other super admins');
         }

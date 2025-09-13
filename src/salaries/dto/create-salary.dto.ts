@@ -38,6 +38,7 @@ export class CreateSalaryDto {
   @IsNumber()
   doctor_id?: number;
 
+  // Validation: faqat bittasi bo'lishi kerak
   @ValidateIf(o => !o.doctor_id)
   @IsNotEmpty({ message: 'Either staff_id or doctor_id must be provided' })
   staff_id_required?: number;

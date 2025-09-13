@@ -44,9 +44,11 @@ export class AdminsService {
 
     async update(id: number, updateAdminDto: UpdateAdminDto, currentUser?: any) {
         try {
+            // Update qilinayotgan adminni topish
             const targetAdmin = await this.adminRepo.findOne({ where: { id } });
             if (!targetAdmin) throw new NotFoundException('Admin not found');
 
+            // Agar current user oddiy admin bo'lsa va target admin super admin bo'lsa, ruxsat yo'q
             if (currentUser &&
                 currentUser.role === 'admin' &&
                 currentUser.is_super_admin !== true &&
@@ -68,6 +70,7 @@ export class AdminsService {
             const admin = await this.adminRepo.findOne({ where: { id } });
             if (!admin) throw new NotFoundException('Admin not found');
 
+            // Role'ni super_admin qilish
             admin.role = 'super_admin';
             await this.adminRepo.save(admin);
 
@@ -82,6 +85,7 @@ export class AdminsService {
             const admin = await this.adminRepo.findOne({ where: { id } });
             if (!admin) throw new NotFoundException('Admin not found');
 
+            // Role'ni oddiy admin qilish
             admin.role = 'admin';
             await this.adminRepo.save(admin);
 
@@ -93,9 +97,11 @@ export class AdminsService {
 
     async remove(id: number, currentUser?: any) {
         try {
+            // O'chirilayotgan adminni topish
             const targetAdmin = await this.adminRepo.findOne({ where: { id } });
             if (!targetAdmin) throw new NotFoundException('Admin not found');
 
+            // Agar current user oddiy admin bo'lsa va target admin super admin bo'lsa, ruxsat yo'q
             if (currentUser &&
                 currentUser.role === 'admin' &&
                 currentUser.is_super_admin !== true &&
@@ -103,6 +109,7 @@ export class AdminsService {
                 throw new ForbiddenException('Oddiy admin super adminni o\'chira olmaydi');
             }
 
+            // O'zini o'chira olmasligi kerak
             if (currentUser && currentUser.id === id) {
                 throw new ForbiddenException('O\'zingizni o\'chira olmaysiz');
             }

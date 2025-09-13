@@ -23,6 +23,7 @@ export class AuthService {
 
     async register(registerDto: RegisterDto) {
         try {
+            // Email mavjudligini tekshirish
             const existingUser = await this.authUserRepository.findOne({
                 where: { email: registerDto.email }
             });
@@ -31,6 +32,7 @@ export class AuthService {
                 throw new ConflictException('Email already exists');
             }
 
+            // Auth user yaratish
             const authUser = this.authUserRepository.create({
                 first_name: registerDto.first_name,
                 last_name: registerDto.last_name,
@@ -47,8 +49,10 @@ export class AuthService {
 
             const savedAuthUser = await this.authUserRepository.save(authUser);
 
+            // Tokenlar yaratish
             const tokens = await this.generateTokens(savedAuthUser);
 
+            // Refresh tokenni saqlash
             await this.updateRefreshToken(savedAuthUser.id, tokens.refresh_token);
 
             const { password, refresh_token, ...userResult } = savedAuthUser;
@@ -92,6 +96,7 @@ export class AuthService {
 
     async createFirstAdmin(registerDto: RegisterDto) {
         try {
+            // Tizimdagi admin/super_admin mavjudligini tekshirish
             const existingAdmin = await this.authUserRepository.findOne({
                 where: [
                     { role: UserRole.ADMIN },
@@ -103,6 +108,7 @@ export class AuthService {
                 throw new ConflictException('Admin allaqachon mavjud. Faqat birinchi admin yaratish uchun ishlatiladi.');
             }
 
+            // Email mavjudligini tekshirish
             const existingUser = await this.authUserRepository.findOne({
                 where: { email: registerDto.email }
             });
@@ -111,18 +117,21 @@ export class AuthService {
                 throw new ConflictException('Email allaqachon mavjud');
             }
 
-            const authUser = new AuthUser();
-            authUser.first_name = registerDto.first_name;
-            authUser.last_name = registerDto.last_name;
-            authUser.email = registerDto.email;
-            authUser.password = registerDto.password;
-            authUser.phone_number = registerDto.phone_number;
-            authUser.role = UserRole.ADMIN;
-            authUser.is_super_admin = true;
-            authUser.is_active = true;
+            // Birinchi super admin yaratish
+            const authUser = this.authUserRepository.create({
+                first_name: registerDto.first_name,
+                last_name: registerDto.last_name,
+                email: registerDto.email,
+                password: registerDto.password,
+                phone_number: registerDto.phone_number,
+                role: UserRole.ADMIN,
+                is_super_admin: true, // Avtomatik super admin qilish
+                is_active: true
+            });
 
             const savedAuthUser = await this.authUserRepository.save(authUser);
 
+            // Token yaratish
             const tokens = await this.generateTokens(savedAuthUser);
             await this.updateRefreshToken(savedAuthUser.id, tokens.refresh_token);
 

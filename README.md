@@ -1,77 +1,23 @@
-# Hospital Management System
+<p align="center">
+  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
+</p>
 
-## Overview
-A comprehensive hospital management system built with NestJS, TypeORM, and PostgreSQL.
+[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
+[circleci-url]: https://circleci.com/gh/nestjs/nest
 
-## Features
-- Authentication & Authorization (JWT)
-- Role-based Access Control
-- Hospital, Department, Doctor Management
-- Patient & Appointment Management
-- Salary & Bonus Management
-- Swagger API Documentation
-
-## Technologies
-- NestJS
-- TypeORM
-- PostgreSQL
-- Swagger/OpenAPI
-- JWT Authentication
-
-## Installation
-
-```bash
-npm install
-```
-
-## Configuration
-Create `.env` file:
-```env
-DB_TYPE=postgres
-DB_HOST=localhost
-DB_PORT=5432
-DB_USERNAME=postgres
-DB_PASSWORD=12345678
-DB_DATABASE=one
-
-JWT_SECRET=hospital_management_secret_key_2025_very_secure
-JWT_EXPIRES_IN=24h
-JWT_REFRESH_SECRET=hospital_refresh_secret_key_2025
-JWT_REFRESH_EXPIRES_IN=7d
-```
-
-## Running the app
-
-```bash
-# development
-npm run start:dev
-
-# production
-npm run start:prod
-```
-
-## API Documentation
-Visit `http://localhost:3000/api/docs` for Swagger documentation.
-
-## Database Setup
-```bash
-sudo -u postgres psql -c "CREATE DATABASE one;"
-sudo -u postgres psql -c "ALTER USER postgres PASSWORD '12345678';"
-```
-
-## First Admin
-Create first super admin:
-```bash
-POST /api/v1/auth/create-first-admin
-{
-  "first_name": "Admin",
-  "last_name": "User",
-  "email": "admin@gmail.com",
-  "password": "123456",
-  "phone_number": "+998901234567",
-  "role": "admin"
-}
-```
+  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
+    <p align="center">
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
+<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
+<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
+<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
+<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
+  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
+    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
+  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
+</p>
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 

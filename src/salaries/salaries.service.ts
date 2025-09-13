@@ -19,6 +19,7 @@ export class SalariesService {
 
   async create(createSalaryDto: CreateSalaryDto) {
     try {
+      // Faqat bittasi bo'lishi kerakligini tekshirish
       if (createSalaryDto.staff_id && createSalaryDto.doctor_id) {
         throw new BadRequestException('Salary can be assigned to either doctor or staff, not both');
       }
@@ -27,6 +28,7 @@ export class SalariesService {
         throw new BadRequestException('Either staff_id or doctor_id must be provided');
       }
 
+      // Doctor yoki staff mavjudligini tekshirish
       if (createSalaryDto.doctor_id) {
         await this.doctorService.findOne(createSalaryDto.doctor_id);
       }
@@ -83,10 +85,12 @@ export class SalariesService {
 
   async update(id: number, updateSalaryDto: UpdateSalaryDto) {
     try {
+      // Faqat bittasi bo'lishi kerakligini tekshirish
       if (updateSalaryDto.staff_id && updateSalaryDto.doctor_id) {
         throw new BadRequestException('Salary can be assigned to either doctor or staff, not both');
       }
 
+      // Doctor yoki staff mavjudligini tekshirish
       if (updateSalaryDto.doctor_id) {
         await this.doctorService.findOne(updateSalaryDto.doctor_id);
       }
@@ -107,12 +111,12 @@ export class SalariesService {
 
       if (updateSalaryDto.doctor_id) {
         updateData.doctor = { id: updateSalaryDto.doctor_id };
-        updateData.staff = null;
+        updateData.staff = null; // Agar doctor o'zgartirilsa, staffni null qil
       }
 
       if (updateSalaryDto.staff_id) {
         updateData.staff = { id: updateSalaryDto.staff_id };
-        updateData.doctor = null;
+        updateData.doctor = null; // Agar staff o'zgartirilsa, doctorni null qil
       }
 
       await this.salaryRepo.update(id, updateData);
@@ -150,15 +154,18 @@ export class SalariesService {
       let salaries;
 
       if (user.role === 'admin') {
+        // Admin barcha salarylarni ko'rishi mumkin
         salaries = await this.salaryRepo.find({
           relations: { staff: true, doctor: true, bonuses: true },
         });
       } else if (user.role === 'doctor') {
+        // Doctor faqat o'ziga tegishli salarylarni ko'rishi mumkin
         salaries = await this.salaryRepo.find({
           where: { doctor: { id: user.related_id } },
           relations: { staff: true, doctor: true, bonuses: true },
         });
       } else if (user.role === 'staff') {
+        // Staff faqat o'ziga tegishli salarylarni ko'rishi mumkin
         salaries = await this.salaryRepo.find({
           where: { staff: { id: user.related_id } },
           relations: { staff: true, doctor: true, bonuses: true },
@@ -182,6 +189,7 @@ export class SalariesService {
       } else if (user.role === 'staff') {
         whereCondition.staff = { id: user.related_id };
       }
+      // Admin uchun additional where condition yo'q
 
       const salary = await this.salaryRepo.findOne({
         where: whereCondition,

@@ -57,7 +57,7 @@ export class AuthUser {
     is_super_admin: boolean;
 
     @Column({ type: 'int', nullable: true })
-    related_id: number;
+    related_id: number; // Doctor, Staff, Patient, Admin ID si
 
     @CreateDateColumn()
     created_at: Date;

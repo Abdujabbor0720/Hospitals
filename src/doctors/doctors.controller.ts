@@ -166,6 +166,7 @@ export class DoctorsController {
   @ApiResponse({ status: 403, description: 'Forbidden - Can only update own profile' })
   @ApiResponse({ status: 404, description: 'Doctor not found' })
   update(@Param('id') id: string, @Body() updateDoctorDto: UpdateDoctorDto, @GetUser() user: any) {
+    // Doctor faqat o'z profilini yangilashi mumkin
     if (user.role === UserRole.DOCTOR && user.related_id !== +id) {
       throw new Error('You can only update your own profile');
     }
