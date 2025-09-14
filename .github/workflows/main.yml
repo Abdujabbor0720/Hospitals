@@ -21,7 +21,6 @@ jobs:
             set -e  # Stop execution if any command fails
             source ~/.nvm/nvm.sh
             cd /home/ubuntu/Hospitals
-
             gti pull
             npm install
             npm run build
