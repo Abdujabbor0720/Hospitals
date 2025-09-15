@@ -46,7 +46,7 @@ import { AuthModule } from './auth/auth.module';
     AdminsModule,
     DoctorsModule,
   ],
-  controllers: [],
+  controllers: [RootController],
   providers: [],
 })
 export class AppModule { }
